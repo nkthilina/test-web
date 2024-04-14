@@ -5,6 +5,7 @@ import Signup from "./auth/Signup";
 import Welcome from "./pages/Welcome";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Update from "./pages/Update";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/contacts/new" element={<NewContact />} />
+          <Route path="/contacts/update" element={<Update />} />
         </Routes>
       </BrowserRouter>
     </div>
