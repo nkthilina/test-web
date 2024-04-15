@@ -9,26 +9,50 @@ import LogOut from "../assets/bx_log-out-circle.png";
 import { Link } from "react-router-dom";
 import EditIcon from "../assets/Vector_edit.png";
 import DeleteIcon from "../assets/Vector_delete.png";
-import MalePhoto from "../assets/male.png";
+// import MalePhoto from "../assets/male.png";
 import FemalePhoto from "../assets/female.png";
 import axios from "axios";
 
 function Contacts() {
-  // const [data, setData] = useState([])
-  const [users, setUsers] = useState([
-    {
-      image: MalePhoto,
-      name: 'John',
-      email: 'j@j.com',
-      gender: 'male',
-      phone: '123-456-7890'
-    },
-  ])
-//   useEffect(() => {
-//     axios.get("http://localhost:3001/users")
-//     .then((res) => setData(res.data)) 
-// .catch(err => console.log(err));
-//   }, [])
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState(""); 
+  const [gender, setGender] = useState("male");
+  const [phone, setPhone] = useState("");
+  const [users, setUsers] = useState([]);
+  const [editUsers, setEditUsers] = useState(-1);
+
+  const handleEdit = (id) => {
+setEditUsers(id);
+  };
+
+  const handleUpdate = (id) => {  
+    axios
+      .put(`http://localhost:3001/contacts/`+editUsers, {
+        name: name,
+        email: email,
+        gender: gender,
+        phone: phone,
+        // name: users[editUsers].name,
+        // email: users[editUsers].email,
+        // gender: users[editUsers].gender,
+        // phone: users[editUsers].phone,
+      })
+      .then((res) => {
+        console.log(res);
+        location.reload();
+        setEditUsers(-1);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    axios
+      // .get("mongodb://localhost:27017")
+      .get("http://localhost:3001/contacts")
+      // .get("http://localhost:3001/users")
+      .then((res) => setUsers(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="w-full h-screen relative">
@@ -85,13 +109,28 @@ function Contacts() {
                 </tr>
               </thead>
               <tbody>
-              {
-                users.map((user, index) => {
-                  return (
+                {users.map((user, index) => {
+                  return ( user.id === editUsers ? (
                     <tr key={index} className="font-normal">
                       <td className="px-10">
-                        <img src={user.image} alt="" className="w-10 h-10" />
-                        {/* <img src={FemalePhoto} alt="" className="w-10 h-10" /> */}
+                        {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
+                        <img src={FemalePhoto} alt="" className="w-10 h-10" />
+                      </td>
+                      <td><input type="text" name="" id="" value={user.name} className="px-10 capitalize" onChange={(e) => setName(e.target.value)}/> </td>
+                      <td><input type="text" name="" id="" value={user.gender} className="px-10 capitalize" onChange={(e) => setGender(e.target.value)}/> </td>
+                      <td><input type="email" name="" id="" value={user.email} className="px-10 " onChange={(e) => setEmail(e.target.value)}/> </td>
+                      <td><input type="text" name="" id="" value={user.phone} className="px-10 " onChange={(e) => setPhone(e.target.value)}/> </td>
+                      <td className=" ">
+                        <button onClick={handleUpdate} className=" items-center justify-center my-auto">
+                            <img src={EditIcon} alt="" className="w-4 h-4" />
+                          </button>
+                      </td>
+                    </tr>                 
+                   ) : (
+                    <tr key={index} className="font-normal">
+                      <td className="px-10">
+                        {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
+                        <img src={FemalePhoto} alt="" className="w-10 h-10" />
                       </td>
                       <td className="px-10 capitalize">{user.name}</td>
                       <td className="px-10">{user.gender}</td>
@@ -99,54 +138,20 @@ function Contacts() {
                       <td className="px-10">{user.phone}</td>
                       <td className="px-10 ">
                         <div className="flex items-center justify-center gap-4 my-auto">
-                        <Link to="/contacts/update">
-                      <img src={EditIcon} alt="" className="w-4 h-4" />
-                    </Link>
-                    <Link to="/contacts/delete">
-
-                          <img src={DeleteIcon} alt="" className="w-4 h-4" />
-                    </Link>
+                          <button onClick={() => handleEdit(user.id)}>
+                            <img src={EditIcon} alt="" className="w-4 h-4" />
+                          </button>
+                          <Link to="/contacts/delete">
+                            <img src={DeleteIcon} alt="" className="w-4 h-4" />
+                          </Link>
                         </div>
                       </td>
                     </tr>
+                   )
                   )
-                })
-              }
-                <tr className="font-normal">
-                  <td className="px-10">
-                    <img src={MalePhoto} alt="" className="w-10 h-10" />
-                    {/* <img src={FemalePhoto} alt="" className="w-10 h-10" /> */}
-                  </td>
-                  <td className="px-10 capitalize">Thilina</td>
-                  <td className="px-10">Male</td>
-                  <td className="px-10">test@gmail.com</td>
-                  <td className="px-10">0123456789</td>
-                  <td className="px-10 ">
-                    <div className="flex items-center justify-center gap-4 my-auto">
-                    <Link to="/contacts/update">
-                      <img src={EditIcon} alt="" className="w-4 h-4" />
-                    </Link>
-                      {/* <img src={EditIcon} alt="" className="w-4 h-4" /> */}
-                      <img src={DeleteIcon} alt="" className="w-4 h-4" />
-                    </div>
-                  </td>
-                </tr>
-                <tr className="font-normal">
-                  <td className="px-10">
-                    {/* <img src={MalePhoto} alt="" className="w-10 h-10" /> */}
-                    <img src={FemalePhoto} alt="" className="w-10 h-10" />
-                  </td>
-                  <td className="px-10 capitalize">Thilina</td>
-                  <td className="px-10">Male</td>
-                  <td className="px-10">test@gmail.com</td>
-                  <td className="px-10">0123456789</td>
-                  <td className="px-10 ">
-                    <div className="flex items-center justify-center gap-4 my-auto">
-                      <img src={EditIcon} alt="" className="w-4 h-4" />
-                      <img src={DeleteIcon} alt="" className="w-4 h-4" />
-                    </div>
-                  </td>
-                </tr>
+                    
+                })}
+                
               </tbody>
             </div>
           </div>

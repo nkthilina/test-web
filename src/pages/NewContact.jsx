@@ -6,7 +6,7 @@ import Logo from "../assets/02 1.png";
 import TWC_Text from "../assets/TWC_Logo_Revamp_2021 1.png";
 import ContactsPortal from "../assets/contacts portal.png";
 import LogOut from "../assets/bx_log-out-circle.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function NewContact() {
@@ -14,6 +14,7 @@ function NewContact() {
   const [email, setEmail] = useState();
   const [gender, setGender] = useState("male");
   const [phone, setPhone] = useState();
+  const navigate = useNavigate();
 
   const Submit = (e) => {
     e.preventDefault();
@@ -24,7 +25,10 @@ function NewContact() {
         gender,
         phone,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res)
+        navigate("/contacts")
+      })
       .catch((err) => console.log(err));
   };
 

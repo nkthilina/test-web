@@ -8,10 +8,10 @@ function PasswordInput({ value, onChange, placeholder }) {
 //   };
 
   return (
-    <div className="bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full">
+    <div className="bg-white w-full rounded-full">
       <input
         type={"password"}
-        className="w-full bg-gray-200 focus:outline-none"
+        className="rounded-full py-1.5 px-5 text-primary w-full"
         placeholder={placeholder || "Password"}
         value={value}
         onChange={onChange}
