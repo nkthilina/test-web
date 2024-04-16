@@ -72,7 +72,7 @@ setEditUsers(id);
         {/* end bg image */}
 
         {/* logo */}
-        <div className="">
+        {/* <div className="">
           <div className="absolute z-10 flex left-10 top-10">
             <img src={Logo} alt="" className="" />
             <img src={TWC_Text} alt="" className="" />
@@ -80,12 +80,24 @@ setEditUsers(id);
           <div className="absolute z-10 flex left-16 top-16">
             <img src={ContactsPortal} alt="" className="" />
           </div>
-        </div>
+        </div> */}
         {/* end logo */}
 
         {/* form */}
-        <div className="absolute z-10 mt-60 mx-40">
-          <div className="flex justify-between mb-7">
+        <div className="absolute z-10 mx-40">
+        {/* logo */}
+        <div className="lg:mt-20">
+            <div className=" flex items-center ">
+              <img src={Logo} alt="" className="w-7 h-6" />
+              <span className="font-semibold text-2xl text-white">twc</span>
+            </div>
+            <div className="text-white grid grid-rows-2 grid-flow-col">
+              <span className="font-bold text-3xl">contacts</span>
+              <span className="font-semibold text-2xl">portal</span>
+            </div>
+          </div>
+          {/* end logo */}
+          <div className="flex justify-between mt-20 mb-7">
             <h1 className=" text-white capitalize font-bold text-5xl">
               Contacts
             </h1>
@@ -158,10 +170,13 @@ setEditUsers(id);
         </div>
         {/* end form */}
 
-        <div className="absolute z-10 right-14 bottom-12 flex text-center justify-items-center">
-          <img src={LogOut} alt="" className="w-[43px] h-[43px]" />
-          <Link to="/login" className="underline text-white font-normal ">
-            logout
+        <div className="absolute z-10 right-14 bottom-12 ">
+          <Link
+            to="/login"
+            className="underline text-white font-normal text-2xl flex items-center gap-4"
+          >
+            <img src={LogOut} alt="" className="w-[43px] h-[43px] " />
+            <span>logout</span>
           </Link>
         </div>
       </div>

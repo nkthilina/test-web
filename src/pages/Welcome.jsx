@@ -25,16 +25,15 @@ function Welcome() {
         {/* end bg image */}
 
         {/* form */}
-        <div className="absolute z-10  2xl:mt-16 lg:mx-36 mx-24">
+        <div className="absolute z-10  2xl:mt-16- lg:mx-36 mx-24">
           {/* logo */}
           <div className="lg:mt-20">
             <div className=" flex items-center ">
               <img src={Logo} alt="" className="w-7 h-6" />
               <span className="font-semibold text-2xl text-white">twc</span>
             </div>
-            <div className="text-white">
+            <div className="text-white grid grid-rows-2 grid-flow-col">
               <span className="font-bold text-3xl">contacts</span>
-              <br />
               <span className="font-semibold text-2xl">portal</span>
             </div>
           </div>
@@ -61,12 +60,13 @@ function Welcome() {
           </div>
         </div>
         {/* end form */}
-        <div className="absolute z-10 right-14 bottom-12  items-center grid grid-cols-2 ">
+        <div className="absolute z-10 right-14 bottom-12 ">
+          <Link to="/login" className="underline text-white font-normal text-2xl flex items-center gap-4">
           <img src={LogOut} alt="" className="w-[43px] h-[43px] " />
-          <Link to="/login" className="underline text-white font-normal text-2xl">
-            logout
+            <span>logout</span>
           </Link>
         </div>
+        
       </div>
     </div>
   );
