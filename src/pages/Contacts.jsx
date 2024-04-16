@@ -3,35 +3,54 @@ import Ellipse01 from "../assets/Ellipse 1.png";
 import LeftImage from "../assets/left_bottom.jpg";
 import RightImage from "../assets/right_top.jpg";
 import Logo from "../assets/02 1.png";
-import TWC_Text from "../assets/TWC_Logo_Revamp_2021 1.png";
-import ContactsPortal from "../assets/contacts portal.png";
 import LogOut from "../assets/bx_log-out-circle.png";
 import { Link } from "react-router-dom";
 import EditIcon from "../assets/Vector_edit.png";
 import DeleteIcon from "../assets/Vector_delete.png";
-// import MalePhoto from "../assets/male.png";
+import MalePhoto from "../assets/male.png";
 import FemalePhoto from "../assets/female.png";
 import axios from "axios";
 
 function Contacts() {
   const [name, setName] = useState("");
-  const [email, setEmail] = useState(""); 
-  const [gender, setGender] = useState("male");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
+  const [updateName, setUpdateName] = useState("");
+  const [updateEmail, setUpdateEmail] = useState("");
+  const [updateGender, setUpdateGender] = useState("");
+  const [updatePhone, setUpdatePhone] = useState("");
   const [users, setUsers] = useState([]);
   const [editUsers, setEditUsers] = useState(-1);
 
   const handleEdit = (id) => {
-setEditUsers(id);
+    axios
+    .get("http://localhost:3001/contacts/"+id)
+    // .get("http://localhost:3001/users")
+    .then((res) => {
+      // setUsers(res.data);
+      setUpdateName(res.data.name);
+      setUpdateGender(res.data.gender);
+      setUpdateEmail(res.data.email);
+      setUpdatePhone(res.data.phone);
+    })
+    .catch((err) => console.log(err));
+    setEditUsers(id);
   };
 
-  const handleUpdate = (id) => {  
+  const handleUpdate = (id) => {
     axios
-      .put(`http://localhost:3001/contacts/`+editUsers, {
-        name: name,
-        email: email,
-        gender: gender,
-        phone: phone,
+      .put(`http://localhost:3001/` + editUsers, {
+        // _id: editUsers,
+        name: updateName,
+        email: updateEmail,
+        gender: updateGender,
+        phone: updatePhone,
+
+        // name: name,
+        // email: email,
+        // gender: gender,
+        // phone: phone,
         // name: users[editUsers].name,
         // email: users[editUsers].email,
         // gender: users[editUsers].gender,
@@ -45,9 +64,18 @@ setEditUsers(id);
       .catch((err) => console.log(err));
   };
 
+  const handleDelete = (id) => {
+    axios
+      .delete("http://localhost:3001/deleteUser/" + id)
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     axios
-      // .get("mongodb://localhost:27017")
       .get("http://localhost:3001/contacts")
       // .get("http://localhost:3001/users")
       .then((res) => setUsers(res.data))
@@ -71,22 +99,10 @@ setEditUsers(id);
         </div>
         {/* end bg image */}
 
-        {/* logo */}
-        {/* <div className="">
-          <div className="absolute z-10 flex left-10 top-10">
-            <img src={Logo} alt="" className="" />
-            <img src={TWC_Text} alt="" className="" />
-          </div>
-          <div className="absolute z-10 flex left-16 top-16">
-            <img src={ContactsPortal} alt="" className="" />
-          </div>
-        </div> */}
-        {/* end logo */}
-
         {/* form */}
         <div className="absolute z-10 mx-40">
-        {/* logo */}
-        <div className="lg:mt-20">
+          {/* logo */}
+          <div className="lg:mt-20">
             <div className=" flex items-center ">
               <img src={Logo} alt="" className="w-7 h-6" />
               <span className="font-semibold text-2xl text-white">twc</span>
@@ -122,23 +138,62 @@ setEditUsers(id);
               </thead>
               <tbody>
                 {users.map((user, index) => {
-                  return ( user.id === editUsers ? (
+                  return user._id === editUsers ? (
                     <tr key={index} className="font-normal">
                       <td className="px-10">
                         {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
-                        <img src={FemalePhoto} alt="" className="w-10 h-10" />
+                        <img src={MalePhoto} alt="" className="w-10 h-10" />
                       </td>
-                      <td><input type="text" name="" id="" value={user.name} className="px-10 capitalize" onChange={(e) => setName(e.target.value)}/> </td>
-                      <td><input type="text" name="" id="" value={user.gender} className="px-10 capitalize" onChange={(e) => setGender(e.target.value)}/> </td>
-                      <td><input type="email" name="" id="" value={user.email} className="px-10 " onChange={(e) => setEmail(e.target.value)}/> </td>
-                      <td><input type="text" name="" id="" value={user.phone} className="px-10 " onChange={(e) => setPhone(e.target.value)}/> </td>
+                      <td>
+                        <input
+                          type="text"
+                          name=""
+                          id=""
+                          value={updateName}
+                          className="mx-3 capitalize bg-gray-300"
+                          onChange={(e) => setUpdateName(e.target.value)}
+                        />{" "}
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          name=""
+                          id=""
+                          value={updateGender}
+                          className="mx-3 capitalize bg-gray-300"
+                          onChange={(e) => setUpdateGender(e.target.value)}
+                        />{" "}
+                      </td>
+                      <td>
+                        <input
+                          type="email"
+                          name=""
+                          id=""
+                          value={updateEmail}
+                          className="mx-3 bg-gray-300"
+                          onChange={(e) => setUpdateEmail(e.target.value)}
+                        />{" "}
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          name=""
+                          id=""
+                          value={updatePhone}
+                          className="mx-3 bg-gray-300"
+                          onChange={(e) => setUpdatePhone(e.target.value)}
+                        />{" "}
+                      </td>
                       <td className=" ">
-                        <button onClick={handleUpdate} className=" items-center justify-center my-auto">
-                            <img src={EditIcon} alt="" className="w-4 h-4" />
-                          </button>
+                        <button
+                          onClick={handleUpdate}
+                          className=" items-center justify-center my-auto"
+                        >
+                          <span className="text-white bg-primary rounded-full px-3 py-1 font-normal">save</span>
+                        </button>
                       </td>
-                    </tr>                 
-                   ) : (
+                    </tr>
+                  ) : (
                     <tr key={index} className="font-normal">
                       <td className="px-10">
                         {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
@@ -150,20 +205,17 @@ setEditUsers(id);
                       <td className="px-10">{user.phone}</td>
                       <td className="px-10 ">
                         <div className="flex items-center justify-center gap-4 my-auto">
-                          <button onClick={() => handleEdit(user.id)}>
+                          <button onClick={() => handleEdit(user._id)}>
                             <img src={EditIcon} alt="" className="w-4 h-4" />
                           </button>
-                          <Link to="/contacts/delete">
+                          <button onClick={() => handleDelete(user._id)}>
                             <img src={DeleteIcon} alt="" className="w-4 h-4" />
-                          </Link>
+                          </button>
                         </div>
                       </td>
                     </tr>
-                   )
-                  )
-                    
+                  );
                 })}
-                
               </tbody>
             </div>
           </div>

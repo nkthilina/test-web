@@ -3,8 +3,6 @@ import Ellipse01 from "../assets/Ellipse 1.png";
 import LeftImage from "../assets/left_bottom.jpg";
 import RightImage from "../assets/right_top.jpg";
 import Logo from "../assets/02 1.png";
-import TWC_Text from "../assets/TWC_Logo_Revamp_2021 1.png";
-import ContactsPortal from "../assets/contacts portal.png";
 import LogOut from "../assets/bx_log-out-circle.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
