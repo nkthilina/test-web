@@ -10,37 +10,42 @@ import DeleteIcon from "../assets/Vector_delete.png";
 import MalePhoto from "../assets/male.png";
 import FemalePhoto from "../assets/female.png";
 import axios from "axios";
+import PopUpModal from "../../components/PopUpModal";
+import PopUpConfirmModal from "../../components/PopUpConfirmModal";
 
 function Contacts() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const [phone, setPhone] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [gender, setGender] = useState("");
+  // const [phone, setPhone] = useState("");
   const [updateName, setUpdateName] = useState("");
   const [updateEmail, setUpdateEmail] = useState("");
   const [updateGender, setUpdateGender] = useState("");
   const [updatePhone, setUpdatePhone] = useState("");
   const [users, setUsers] = useState([]);
   const [editUsers, setEditUsers] = useState(-1);
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
+  const [deleteUsers, setDeleteUsers] = useState({});
 
   const handleEdit = (id) => {
     axios
-    .get("http://localhost:3001/contacts/"+id)
-    // .get("http://localhost:3001/users")
-    .then((res) => {
-      // setUsers(res.data);
-      setUpdateName(res.data.name);
-      setUpdateGender(res.data.gender);
-      setUpdateEmail(res.data.email);
-      setUpdatePhone(res.data.phone);
-    })
-    .catch((err) => console.log(err));
+      .get("http://localhost:3001/contacts/" + id)
+      // .get("http://localhost:3001/users")
+      .then((res) => {
+        // setUsers(res.data);
+        setUpdateName(res.data.name);
+        setUpdateGender(res.data.gender);
+        setUpdateEmail(res.data.email);
+        setUpdatePhone(res.data.phone);
+      })
+      .catch((err) => console.log(err));
     setEditUsers(id);
   };
 
   const handleUpdate = (id) => {
     axios
-      .put(`http://localhost:3001/` + editUsers, {
+      .put(`http://localhost:3001/` + editUsers.id, {
         // _id: editUsers,
         name: updateName,
         email: updateEmail,
@@ -64,15 +69,32 @@ function Contacts() {
       .catch((err) => console.log(err));
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = () => {
     axios
-      .delete("http://localhost:3001/deleteUser/" + id)
+      .delete(`http://localhost:3001/deleteUser/${deleteUsers?._id}`)
+      // .delete("http://localhost:3001/deleteUser/" + deleteUsers._id)
       .then((res) => {
         console.log(res);
+        setShowPopUp(false);
         window.location.reload();
       })
       .catch((err) => console.log(err));
   };
+  console.log(deleteUsers);
+
+  const handleClose = (user) => {
+    setShowPopUp(false);
+    setDeleteUsers(user);
+  };
+  // const handleConfirmClose = (user) => {
+  //   setShowPopUp(false);
+  //   setDeleteUsers(user);
+  // };
+
+  const openDelete = (user) => {
+    setShowPopUp(true);
+    setDeleteUsers(user);
+  }
 
   useEffect(() => {
     axios
@@ -84,6 +106,14 @@ function Contacts() {
 
   return (
     <div className="w-full h-screen relative">
+      {/* pop up */}
+      <PopUpModal onClose={handleClose} visible={showPopUp} name={deleteUsers?.name} deleteFunction={handleDelete}/>
+      {/* end pop up */}
+
+      {/* pop up confirm */}
+      <PopUpConfirmModal onClose={handleConfirmClose}/>
+      {/* end pop up confirm */}
+
       <div className="relative w-full h-screen flex">
         {/* bg image */}
         <img
@@ -100,7 +130,7 @@ function Contacts() {
         {/* end bg image */}
 
         {/* form */}
-        <div className="absolute z-10 mx-40">
+        <div className="absolute z-10 sm:mx-5 lg:mx-10 xl:mx-40">
           {/* logo */}
           <div className="lg:mt-20">
             <div className=" flex items-center ">
@@ -126,6 +156,7 @@ function Contacts() {
           </div>
           <div className="text-primary bg-white rounded-[30px]">
             <div className="pt-[12px] pb-[31px]">
+            <table>
               <thead className="">
                 <tr className="px-1">
                   <th className="px-10"></th>
@@ -189,7 +220,9 @@ function Contacts() {
                           onClick={handleUpdate}
                           className=" items-center justify-center my-auto"
                         >
-                          <span className="text-white bg-primary rounded-full px-3 py-1 font-normal">save</span>
+                          <span className="text-white bg-primary rounded-full px-3 py-1 text-sm font-normal mx-auto items-center justify-center">
+                            save
+                          </span>
                         </button>
                       </td>
                     </tr>
@@ -208,15 +241,22 @@ function Contacts() {
                           <button onClick={() => handleEdit(user._id)}>
                             <img src={EditIcon} alt="" className="w-4 h-4" />
                           </button>
-                          <button onClick={() => handleDelete(user._id)}>
+                          <button onClick={() => openDelete(user)}>
                             <img src={DeleteIcon} alt="" className="w-4 h-4" />
                           </button>
+                          {/* <button onClick={() => setShowPopUp(user._id)}>
+                            <img src={DeleteIcon} alt="" className="w-4 h-4" />
+                          </button> */}
+                          {/* <button onClick={() => handleDelete(user._id)}>
+                            <img src={DeleteIcon} alt="" className="w-4 h-4" />
+                          </button> */}
                         </div>
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
+              </table>
             </div>
           </div>
         </div>
