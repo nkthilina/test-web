@@ -9,6 +9,7 @@ import EditIcon from "../assets/Vector_edit.png";
 import DeleteIcon from "../assets/Vector_delete.png";
 import MalePhoto from "../assets/male.png";
 import FemalePhoto from "../assets/female.png";
+import GenderRefreshIcon from "../assets/tabler_refresh.png";
 import axios from "axios";
 import PopUpModal from "../../components/PopUpModal";
 import PopUpConfirmModal from "../../components/PopUpConfirmModal";
@@ -27,11 +28,16 @@ function Contacts() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [deleteUsers, setDeleteUsers] = useState({});
+  // const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleEdit = (id) => {
+  const handleGenderChange = () => {
+    const newGender = updateGender === "Male" ? "Female" : "Male";
+    setUpdateGender(newGender);
+  };
+
+  const handleEdit = (_id) => {
     axios
-      .get("http://localhost:3001/contacts/" + id)
-      // .get("http://localhost:3001/users")
+      .get(`http://localhost:3001/editUser/` + _id)
       .then((res) => {
         // setUsers(res.data);
         setUpdateName(res.data.name);
@@ -40,31 +46,23 @@ function Contacts() {
         setUpdatePhone(res.data.phone);
       })
       .catch((err) => console.log(err));
-    setEditUsers(id);
+    setEditUsers(_id);
   };
 
-  const handleUpdate = (id) => {
+  const handleUpdate = () => {
     axios
-      .put(`http://localhost:3001/` + editUsers.id, {
+      .put(`http://localhost:3001/editUser/` + editUsers, {
         // _id: editUsers,
         name: updateName,
         email: updateEmail,
         gender: updateGender,
         phone: updatePhone,
-
-        // name: name,
-        // email: email,
-        // gender: gender,
-        // phone: phone,
-        // name: users[editUsers].name,
-        // email: users[editUsers].email,
-        // gender: users[editUsers].gender,
-        // phone: users[editUsers].phone,
       })
       .then((res) => {
         console.log(res);
-        location.reload();
-        setEditUsers(-1);
+        setShowConfirmPopUp(true);
+        // location.reload();
+        // setEditUsers(-1);
       })
       .catch((err) => console.log(err));
   };
@@ -86,32 +84,45 @@ function Contacts() {
     setShowPopUp(false);
     setDeleteUsers(user);
   };
-  // const handleConfirmClose = (user) => {
-  //   setShowPopUp(false);
-  //   setDeleteUsers(user);
+  // const handleConfirmClose = () => {
+  //   setShowConfirmPopUp(false);
+  //   location.reload();
+  //   setEditUsers(-1);
   // };
 
   const openDelete = (user) => {
     setShowPopUp(true);
     setDeleteUsers(user);
-  }
+  };
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/contacts")
-      // .get("http://localhost:3001/users")
+      .get(`http://localhost:3001/contacts`)
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
   }, []);
 
   return (
     <div className="w-full h-screen relative">
+
       {/* pop up */}
-      <PopUpModal onClose={handleClose} visible={showPopUp} name={deleteUsers?.name} deleteFunction={handleDelete}/>
+      <PopUpModal
+        onClose={handleClose}
+        visible={showPopUp}
+        name={deleteUsers?.name}
+        deleteFunction={handleDelete}
+      />
       {/* end pop up */}
 
       {/* pop up confirm */}
-      <PopUpConfirmModal onClose={handleConfirmClose}/>
+      <PopUpConfirmModal
+        onClose={() => setShowConfirmPopUp(false)}
+        visible={showConfirmPopUp}
+        updateFunction={() => {
+          setShowConfirmPopUp(false); 
+          window.location.reload(); 
+        }}
+      />
       {/* end pop up confirm */}
 
       <div className="relative w-full h-screen flex">
@@ -156,106 +167,167 @@ function Contacts() {
           </div>
           <div className="text-primary bg-white rounded-[30px]">
             <div className="pt-[12px] pb-[31px]">
-            <table>
-              <thead className="">
-                <tr className="px-1">
-                  <th className="px-10"></th>
-                  <th className="px-10 whitespace-nowrap">full name</th>
-                  <th className="px-10">gender</th>
-                  <th className="px-10">e-mail</th>
-                  <th className="px-10 whitespace-nowrap">phone number</th>
-                  <th className="px-10"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user, index) => {
-                  return user._id === editUsers ? (
-                    <tr key={index} className="font-normal">
-                      <td className="px-10">
-                        {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
-                        <img src={MalePhoto} alt="" className="w-10 h-10" />
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          name=""
-                          id=""
-                          value={updateName}
-                          className="mx-3 capitalize bg-gray-300"
-                          onChange={(e) => setUpdateName(e.target.value)}
-                        />{" "}
-                      </td>
-                      <td>
-                        <input
+              <table>
+                <thead className="">
+                  <tr className="px-1">
+                    <th className="px-10"></th>
+                    <th className="px-10 whitespace-nowrap">full name</th>
+                    <th className="px-10">gender</th>
+                    <th className="px-10">e-mail</th>
+                    <th className="px-10 whitespace-nowrap">phone number</th>
+                    <th className="px-10"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user, index) => {
+                    return user._id === editUsers ? (
+                      <tr key={index} className="font-normal">
+                        <td className="px-10">
+                          {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
+                          <img src={MalePhoto} alt="" className="w-10 h-10" />
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name=""
+                            id=""
+                            value={updateName}
+                            className="mx-3 px-1 capitalize bg-gray-300"
+                            onChange={(e) => setUpdateName(e.target.value)}
+                          />{" "}
+                        </td>
+                        <td className="flex">
+                          {/* <input
                           type="text"
                           name=""
                           id=""
                           value={updateGender}
-                          className="mx-3 capitalize bg-gray-300"
+                          className="mx-3 px-1 capitalize bg-gray-300"
                           onChange={(e) => setUpdateGender(e.target.value)}
                         />{" "}
-                      </td>
-                      <td>
-                        <input
-                          type="email"
-                          name=""
-                          id=""
-                          value={updateEmail}
-                          className="mx-3 bg-gray-300"
-                          onChange={(e) => setUpdateEmail(e.target.value)}
-                        />{" "}
-                      </td>
-                      <td>
-                        <input
-                          type="text"
-                          name=""
-                          id=""
-                          value={updatePhone}
-                          className="mx-3 bg-gray-300"
-                          onChange={(e) => setUpdatePhone(e.target.value)}
-                        />{" "}
-                      </td>
-                      <td className=" ">
-                        <button
-                          onClick={handleUpdate}
-                          className=" items-center justify-center my-auto"
-                        >
-                          <span className="text-white bg-primary rounded-full px-3 py-1 text-sm font-normal mx-auto items-center justify-center">
-                            save
-                          </span>
-                        </button>
-                      </td>
-                    </tr>
-                  ) : (
-                    <tr key={index} className="font-normal">
-                      <td className="px-10">
-                        {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
-                        <img src={FemalePhoto} alt="" className="w-10 h-10" />
-                      </td>
-                      <td className="px-10 capitalize">{user.name}</td>
-                      <td className="px-10">{user.gender}</td>
-                      <td className="px-10">{user.email}</td>
-                      <td className="px-10">{user.phone}</td>
-                      <td className="px-10 ">
-                        <div className="flex items-center justify-center gap-4 my-auto">
-                          <button onClick={() => handleEdit(user._id)}>
-                            <img src={EditIcon} alt="" className="w-4 h-4" />
+                        <img src={GenderRefreshIcon} alt="" /> */}
+
+                          {/* test */}
+                          {/* <div className="relative">
+                            <input
+                              type="text"
+                              name=""
+                              id=""
+                              value={updateGender}
+                              className="mx-3 px-1 my-2 capitalize bg-gray-300"
+                              onChange={(e) => setUpdateGender(e.target.value)}
+                              onFocus={() => setShowDropdown(true)}
+                              readOnly // Prevent typing directly into the input
+                            />
+                            {showDropdown && (
+                              <div className="absolute top-full left-0 z-10 bg-white border border-gray-300 shadow-lg rounded-md">
+                                <ul>
+                                  <li
+                                    onClick={() => handleGenderSelect("Male")}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                  >
+                                    Male
+                                  </li>
+                                  <li
+                                    onClick={() => handleGenderSelect("Female")}
+                                    className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                                  >
+                                    Female
+                                  </li>
+                                </ul>
+                              </div>
+                            )}
+                            <button onClick={() => setUpdateGender("")}>
+                              <img
+                                src={GenderRefreshIcon}
+                                alt=""
+                                className="absolute right-2 top-0 w-6 h-6 m-2 cursor-pointer"
+                              />
+                            </button>
+                          </div> */}
+                          <div className="relative">
+                            <input
+                              type="text"
+                              value={updateGender}
+                              className="mx-3 px-1 my-2 w-28 capitalize bg-gray-300"
+                              readOnly // Prevent typing directly into the input
+                            />
+                            <button onClick={handleGenderChange}>
+                              <img
+                                src={GenderRefreshIcon}
+                                alt=""
+                                className="absolute right-2 top-0 w-6 h-6 m-2 cursor-pointer"
+                              />
+                            </button>
+                          </div>
+                          {/* end test */}
+                        </td>
+                        <td>
+                          <input
+                            type="email"
+                            name=""
+                            id=""
+                            value={updateEmail}
+                            className="mx-3 px-1 bg-gray-300"
+                            onChange={(e) => setUpdateEmail(e.target.value)}
+                          />{" "}
+                        </td>
+                        <td>
+                          <input
+                            type="text"
+                            name=""
+                            id=""
+                            value={updatePhone}
+                            className="mx-3 px-1 bg-gray-300"
+                            onChange={(e) => setUpdatePhone(e.target.value)}
+                          />{" "}
+                        </td>
+                        <td className=" ">
+                          <button
+                            onClick={handleUpdate}
+                            // onClick={() => setShowConfirmPopUp(false)}
+                            className=" items-center justify-center my-auto"
+                          >
+                            <span className="text-white bg-primary rounded-full px-3 py-1 text-sm font-normal mx-auto items-center justify-center">
+                              save
+                            </span>
                           </button>
-                          <button onClick={() => openDelete(user)}>
-                            <img src={DeleteIcon} alt="" className="w-4 h-4" />
-                          </button>
-                          {/* <button onClick={() => setShowPopUp(user._id)}>
+                        </td>
+                      </tr>
+                    ) : (
+                      <tr key={index} className="font-normal">
+                        <td className="px-10">
+                          {/* <img src={user.image} alt="" className="w-10 h-10" /> */}
+                          <img src={user.gender === "Male" ? MalePhoto : FemalePhoto} alt="" className="w-10 h-10" />
+                        </td>
+                        <td className="px-10 capitalize">{user.name}</td>
+                        <td className="px-10">{user.gender}</td>
+                        <td className="px-10">{user.email}</td>
+                        <td className="px-10">{user.phone}</td>
+                        <td className="px-10 ">
+                          <div className="flex items-center justify-center gap-4 my-auto">
+                            <button onClick={() => handleEdit(user._id)}>
+                              <img src={EditIcon} alt="" className="w-4 h-4" />
+                            </button>
+                            <button onClick={() => openDelete(user)}>
+                              <img
+                                src={DeleteIcon}
+                                alt=""
+                                className="w-4 h-4"
+                              />
+                            </button>
+                            {/* <button onClick={() => setShowPopUp(user._id)}>
                             <img src={DeleteIcon} alt="" className="w-4 h-4" />
                           </button> */}
-                          {/* <button onClick={() => handleDelete(user._id)}>
+                            {/* <button onClick={() => handleDelete(user._id)}>
                             <img src={DeleteIcon} alt="" className="w-4 h-4" />
                           </button> */}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
               </table>
             </div>
           </div>
