@@ -1,6 +1,6 @@
 import React from "react";
 
-function PopUpModal({ visible, onClose, name, deleteFunction }) {
+function DeleteSuccessModal({ visible, onClose }) {
   const handleOnClose = (e) => {
     if (e.target.id === "container") onClose();
   };
@@ -22,16 +22,10 @@ function PopUpModal({ visible, onClose, name, deleteFunction }) {
           <div>
             <div className="text-center p-5 flex-auto justify-center">
               <h2 className="text-xl font-bold py-2 ">
-                Do you want to delete the contact "{name}"
+              Your contact has been deleted successfully!
               </h2>
             </div>
             <div className="p-3  mt-2 text-center space-x-4 md:block">
-              <button
-                onClick={deleteFunction}
-                className="mb-2 md:mb-0 bg-primary border border-primary px-5 py-2 text-sm  shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-primary"
-              >
-                Yes
-              </button>
               <button
                 onClick={onClose}
                 className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
@@ -46,4 +40,4 @@ function PopUpModal({ visible, onClose, name, deleteFunction }) {
   );
 }
 
-export default PopUpModal;
+export default DeleteSuccessModal;
