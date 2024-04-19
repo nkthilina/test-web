@@ -17,11 +17,15 @@ import UpdateConfirmModal from "../../components/UpdateConfirmModal";
 // import DeleteSuccessModal from "../../components/DeleteSuccessModal";
 
 function Contacts() {
+  const [users, setUsers] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [phone, setPhone] = useState("");
   const [updateName, setUpdateName] = useState("");
   const [updateEmail, setUpdateEmail] = useState("");
   const [updateGender, setUpdateGender] = useState("");
   const [updatePhone, setUpdatePhone] = useState("");
-  const [users, setUsers] = useState([]);
   const [editUsers, setEditUsers] = useState(-1);
   const [showPopUp, setShowPopUp] = useState(false);
   const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
@@ -59,7 +63,7 @@ function Contacts() {
         console.log(res);
         setShowConfirmPopUp(true);
         // location.reload();
-        // setEditUsers(-1);
+        setEditUsers(-1);
       })
       .catch((err) => console.log(err));
   };
@@ -92,10 +96,14 @@ function Contacts() {
       .get(`http://localhost:3001/contacts`)
       .then((res) => setUsers(res.data))
       .catch((err) => console.log(err));
+
+      return () => {
+        setEditUsers(-1);
+      };
   }, []);
 
   return (
-    <div className="w-full h-screen relative">
+    <div className="w-full h-screen relative font-poppins">
       {/* pop up */}
       <DeleteConfirmModal
         onClose={handleClose}

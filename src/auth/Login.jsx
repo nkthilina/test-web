@@ -41,7 +41,7 @@ function Login() {
   return (
     <div>
       {/* testing */}
-      <div className="absolute z-10  w-full h-screen">
+      <div className="absolute z-10  w-full h-screen font-poppins">
         <div className="w-full h-screen relative flex">
           <img
             src={BgLoginEllipse}

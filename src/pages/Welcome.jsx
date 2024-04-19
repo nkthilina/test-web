@@ -8,7 +8,7 @@ import LogOut from "../assets/bx_log-out-circle.png";
 
 function Welcome() {
   return (
-    <div className="w-full h-screen relative">
+    <div className="w-full h-screen relative font-poppins">
       <div className="relative w-full h-screen flex ">
         {/* bg image */}
         <img
