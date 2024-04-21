@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Ellipse01 from "../assets/Ellipse 1.png";
 import LeftImage from "../assets/left_bottom.jpg";
 import RightImage from "../assets/right_top.jpg";

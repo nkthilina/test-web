@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 
 function UpdateConfirmModal({ visible, onClose,  updateFunction, title }) {
     const handleOnClose = (e) => {
@@ -9,7 +9,7 @@ function UpdateConfirmModal({ visible, onClose,  updateFunction, title }) {
   if (!visible) return null;
   return (
     <div id="container"
-    onClick={handleOnClose} className="fixed inset-0 z-50  bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
+    onClick={handleOnClose} className="fixed inset-0 z-50 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center">
       <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
         <div className="min-w-screen h-screen animated fadeIn faster  fixed  left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none    bg-opacity-30 backdrop-blur-sm" >
           <div className="absolute bg-black opacity-80 inset-0 z-0" />

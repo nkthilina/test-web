@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+// import React from "react";
 
 function PasswordInput({ value, onChange, placeholder }) {
-//   const [isShowPassword, setIsShowPassword] = useState(false);
+  // const [isShowPassword, setIsShowPassword] = useState(false);
 
-//   const toggleShowPassword = () => {
-//     setIsShowPassword(!isShowPassword);
-//   };
+  // const toggleShowPassword = () => {
+  //   setIsShowPassword(!isShowPassword);
+  // };
 
   return (
     <div className="bg-white w-full rounded-full">

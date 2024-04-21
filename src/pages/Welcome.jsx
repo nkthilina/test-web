@@ -1,15 +1,37 @@
-import React from "react";
+// import React from "react";
 import { Link } from "react-router-dom";
 import Ellipse01 from "../assets/Ellipse 1.png";
 import LeftImage from "../assets/left_bottom.jpg";
 import RightImage from "../assets/right_top.jpg";
 import Logo from "../assets/02 1.png";
 import LogOut from "../assets/bx_log-out-circle.png";
+// import BgL from '../assets/bg_left.jpg'
+// import {useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
 function Welcome() {
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const checkAuthentication = () => {
+  //     const authToken = localStorage.getItem("authToken");
+  //     return !!authToken; 
+  //   };
+
+    // Redirect if user is not authenticated
+  //   if (!isAuthenticated && !checkAuthentication()) {
+  //     navigate("/login");
+  //   }
+  //   if (isAuthenticated && checkAuthentication()) {
+  //     navigate("/"); 
+  //   }
+  // }, [isAuthenticated, navigate]);
+
   return (
     <div className="w-full h-screen relative font-poppins">
       <div className="relative w-full h-screen flex ">
+        
         {/* bg image */}
         <img
           src={Ellipse01}

@@ -18,10 +18,10 @@ import UpdateConfirmModal from "../../components/UpdateConfirmModal";
 
 function Contacts() {
   const [users, setUsers] = useState([]);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const [phone, setPhone] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [gender, setGender] = useState("");
+  // const [phone, setPhone] = useState("");
   const [updateName, setUpdateName] = useState("");
   const [updateEmail, setUpdateEmail] = useState("");
   const [updateGender, setUpdateGender] = useState("");
@@ -30,6 +30,7 @@ function Contacts() {
   const [showPopUp, setShowPopUp] = useState(false);
   const [showConfirmPopUp, setShowConfirmPopUp] = useState(false);
   const [deleteUsers, setDeleteUsers] = useState({});
+  
 
   const handleGenderChange = () => {
     const newGender = updateGender === "Male" ? "Female" : "Male";

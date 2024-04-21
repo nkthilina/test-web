@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 import PasswordInput from "../../components/PasswordInput";
 import { validateEmail } from "../../utils/helper";
 import BgLogin from "../assets/bg_login.jpg";
 import BgLoginEllipse from "../assets/Bg_Ellipse_login_register.png";
 import Logo from "../assets/02 1.png";
+// import BgNewImage from '../assets/social media icons.jpg'
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function Login() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -31,17 +32,32 @@ function Login() {
       .then((res) => {
         console.log(res);
         if (res.data === "Success") {
+        // if (res.data.startsWith === "Success") {
           navigate("/");
         }
-        navigate("/");
+        setError(res.data.error);
       })
       .catch((err) => console.log(err));
+  
   };
 
   return (
     <div>
-      {/* testing */}
       <div className="absolute z-10  w-full h-screen font-poppins">
+
+              {/* bg image */}
+        {/* <div className="w-full h-screen relative flex">
+          <img
+            src={BgLoginEllipse}
+            alt=""
+            className="w-3/5 h-screen absolute left-0 z-20"
+          />
+          <img
+            src={BgNewImage}
+            alt=""
+            className="w-1/2 h-full absolute right-0 object-cover z-10"
+          />
+        </div> */}
         <div className="w-full h-screen relative flex">
           <img
             src={BgLoginEllipse}
@@ -54,6 +70,8 @@ function Login() {
             className="w-1/2 h-full absolute right-0 object-cover z-10"
           />
         </div>
+        {/* end bg image */}
+
         <div className=" items-center justify-between grid grid-cols-2">
           <div className="absolute  left-20 xl:left-10 2xl:left-20 top-36 xl:top-20 2xl:top-40 z-30 xl:m-20 ">
             <div className="text-white ">
@@ -62,14 +80,14 @@ function Login() {
                 Welcome to our <br /> contacts portal
               </p>
             </div>
-            <form  onSubmit={handleSubmit}>
+            <form  onSubmit={handleLogin}>
               <div className="mt-10 grid grid-rows-2 grid-flow-col gap-6">
                 <input
                   type="email"
                   placeholder="e-mail"
                   className="rounded-full py-1.5 px-5 text-primary"
                   onChange={(e) => setEmail(e.target.value)}
-                  id="email"
+                  // id="email"
                   value={email}
                 />
                 <PasswordInput
@@ -105,7 +123,6 @@ function Login() {
           </div>
         </div>
       </div>
-      {/* end testing */}
     </div>
   );
 }

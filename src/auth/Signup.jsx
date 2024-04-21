@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../components/PasswordInput";
@@ -14,7 +14,7 @@ function Signup() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
@@ -32,10 +32,14 @@ function Signup() {
     setError("");
 
     axios
-      .post("http://localhost:3001/register", { email, password })
+      .post(`http://localhost:3001/register`, { email, password })
       .then((res) => {
         console.log(res);
+        if (res.data.error) {
+          setError(res.data.error);
+        }else {
         navigate("/login");
+        }
       })
       .catch((err) => console.log(err));
   };
@@ -65,14 +69,14 @@ function Signup() {
                 Register Now!
               </h1>
             </div>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSignup}>
               <div className="mt-10 grid grid-rows-3 grid-flow-col gap-6">
                 <input
                   type="email"
                   placeholder="e-mail"
                   className="rounded-full py-1.5 px-5 text-primary"
                   onChange={(e) => setEmail(e.target.value)}
-                  id="email"
+                  // id="email"
                   value={email}
                 />
                 <PasswordInput
