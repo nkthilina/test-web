@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import PasswordInput from "../../components/PasswordInput";
 import { validateEmail } from "../../utils/helper";
-import BgLogin from "../assets/bg_login.jpg";
+// import BgLogin from "../assets/bg_login.jpg";
 import BgLoginEllipse from "../assets/Bg_Ellipse_login_register.png";
-import Logo from "../assets/02 1.png";
-// import BgNewImage from '../assets/social media icons.jpg'
+// import Logo from "../assets/02 1.png";
+import BgNewImage from "../assets/social media icons.jpg";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -32,33 +32,31 @@ function Login() {
       .then((res) => {
         console.log(res);
         if (res.data === "Success") {
-        // if (res.data.startsWith === "Success") {
+          // if (res.data.startsWith === "Success") {
           navigate("/");
         }
         setError(res.data.error);
       })
       .catch((err) => console.log(err));
-  
   };
 
   return (
     <div>
       <div className="absolute z-10  w-full h-screen font-poppins">
-
-              {/* bg image */}
-        {/* <div className="w-full h-screen relative flex">
+        {/* bg image */}
+        <div className="w-full h-screen relative flex">
           <img
             src={BgLoginEllipse}
             alt=""
-            className="w-3/5 h-screen absolute left-0 z-20"
+            className="w-3/5 h-screen absolute -left-5 z-20"
           />
           <img
             src={BgNewImage}
             alt=""
-            className="w-1/2 h-full absolute right-0 object-cover z-10"
+            className="w-1/2 h-full absolute right-0 object-cover z-10 "
           />
-        </div> */}
-        <div className="w-full h-screen relative flex">
+        </div>
+        {/* <div className="w-full h-screen relative flex">
           <img
             src={BgLoginEllipse}
             alt=""
@@ -69,7 +67,7 @@ function Login() {
             alt=""
             className="w-1/2 h-full absolute right-0 object-cover z-10"
           />
-        </div>
+        </div> */}
         {/* end bg image */}
 
         <div className=" items-center justify-between grid grid-cols-2">
@@ -80,7 +78,7 @@ function Login() {
                 Welcome to our <br /> contacts portal
               </p>
             </div>
-            <form  onSubmit={handleLogin}>
+            <form onSubmit={handleLogin}>
               <div className="mt-10 grid grid-rows-2 grid-flow-col gap-6">
                 <input
                   type="email"
@@ -99,9 +97,7 @@ function Login() {
               </div>
               {error && <p className="text-red-500 mt-4 -mb-10">{error}</p>}
               <div className="text-white mt-16 ">
-                <button
-                  className="border rounded-full border-solid my-auto py-1 px-8 text-white text-normal"
-                >
+                <button className="border rounded-full border-solid my-auto py-1 px-8 text-white text-normal">
                   login
                 </button>
                 <span className="mx-5">or</span>
@@ -111,7 +107,7 @@ function Login() {
               </div>
             </form>
           </div>
-          <div className="absolute right-24 xl:right-48 2xl:right-60 top-1/3 xl:top-1/3 z-30 ">
+          {/* <div className="absolute right-24 xl:right-48 2xl:right-60 top-1/3 xl:top-1/3 z-30 ">
             <div className=" flex items-center ">
               <img src={Logo} alt="" className="w-9 h-8" />
               <span className="font-semibold text-3xl text-primary">twc</span>
@@ -120,7 +116,7 @@ function Login() {
               <span className="font-bold text-5xl">contacts</span>
               <span className="font-semibold text-4xl">portal</span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

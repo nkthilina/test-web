@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Ellipse01 from "../assets/Ellipse 1.png";
 import LeftImage from "../assets/left_bottom.jpg";
 import RightImage from "../assets/right_top.jpg";
-import Logo from "../assets/02 1.png";
+// import Logo from "../assets/02 1.png";
 import LogOut from "../assets/bx_log-out-circle.png";
 // import BgL from '../assets/bg_left.jpg'
 // import {useEffect, useState } from "react";
@@ -47,13 +47,13 @@ function Welcome() {
         {/* end bg image */}
 
         {/* form */}
-        <div className="absolute z-10  2xl:mt-16- lg:mx-36 mx-24">
+        <div className="absolute z-10  2xl:mt-16- lg:mx-36 mx-24 ">
           {/* logo */}
           <div className="lg:mt-20">
-            <div className=" flex items-center ">
+            {/* <div className=" flex items-center ">
               <img src={Logo} alt="" className="w-7 h-6" />
               <span className="font-semibold text-2xl text-white">twc</span>
-            </div>
+            </div> */}
             <div className="text-white grid grid-rows-2 grid-flow-col">
               <span className="font-bold text-3xl">contacts</span>
               <span className="font-semibold text-2xl">portal</span>
@@ -61,7 +61,7 @@ function Welcome() {
           </div>
           {/* end logo */}
 
-          <div className="xl:mt-28 2xl:mt-40 lg:mt-20">
+          <div className="xl:mt-28 2xl:mt-40 lg:mt-20 justify-center">
             <h1 className="text-white capitalize font-bold text-5xl">
               Welcome,
             </h1>

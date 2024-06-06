@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import Ellipse01 from "../assets/Ellipse 1.png";
 import LeftImage from "../assets/left_bottom.jpg";
 import RightImage from "../assets/right_top.jpg";
-import Logo from "../assets/02 1.png";
+// import Logo from "../assets/02 1.png";
 import LogOut from "../assets/bx_log-out-circle.png";
 import { Link } from "react-router-dom";
 import EditIcon from "../assets/Vector_edit.png";
@@ -145,10 +145,10 @@ function Contacts() {
         <div className="absolute z-10 sm:mx-5 lg:mx-10 xl:mx-40">
           {/* logo */}
           <div className="lg:mt-20">
-            <div className=" flex items-center ">
+            {/* <div className=" flex items-center ">
               <img src={Logo} alt="" className="w-7 h-6" />
               <span className="font-semibold text-2xl text-white">twc</span>
-            </div>
+            </div> */}
             <div className="text-white grid grid-rows-2 grid-flow-col">
               <span className="font-bold text-3xl">contacts</span>
               <span className="font-semibold text-2xl">portal</span>
